@@ -1,15 +1,16 @@
 {
     "name": "edmondscommerce/magento2-migrations",
     "description": "Helps to bootstrap a Magento 2 store for production allowing a database to be dropped and recreated during development",
-    "require": {
-    },
     "type": "magento2-module",
+    "version": "0.1.0",
+    "require": {
+        "php": "~5.5.0|~5.6.0|~7.0.0",
+        "magento/product-community-edition": "~2.1.0"
+    },
     "autoload": {
+        "files": ["registration.php"],
         "psr-4": {
             "EdmondsCommerce\\Migrations\\": ""
-        },
-        "files": [
-            "registration.php"
-        ]
+        }
     }
 }
