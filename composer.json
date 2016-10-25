@@ -2,5 +2,14 @@
     "name": "edmondscommerce/magento2-migrations",
     "description": "Helps to bootstrap a Magento 2 store for production allowing a database to be dropped and recreated during development",
     "require": {
+    },
+    "type": "magento2-module",
+    "autoload": {
+        "psr-4": {
+            "EdmondsCommerce\\Migrations\\": ""
+        },
+        "files": [
+            "registration.php"
+        ]
     }
 }
