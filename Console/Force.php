@@ -1,22 +1,21 @@
 <?php namespace EdmondsCommerce\Migrations\Console;
 
+use League\CLImate\TerminalObject\Dynamic\Input;
 use Symfony\Component\Console;
 use \Magento\Framework\Setup\ModuleContextInterface;
 use \Magento\Framework\Setup\ModuleDataSetupInterface;
+use Symfony\Component\Console\Helper\QuestionHelper;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Question\ConfirmationQuestionFactory;
 
 class Force extends Console\Command\Command
 {
-
+    const ARG_MODULE = 'module';
 
     /**
      * @var  \Magento\Framework\App\State
      */
     private $state;
-    /**
-     * @var \EdmondsCommerce\Migrations\Setup\InstallData
-     */
-    private $installData;
 
     /**
      * @var ConfirmationQuestionFactory
@@ -37,15 +36,13 @@ class Force extends Console\Command\Command
     /**
      * Force constructor.
      * @param \Magento\Framework\App\State $state
-     * @param \EdmondsCommerce\Migrations\Setup\InstallData $installData
-     * @param Console\Helper\QuestionHelper $questionHelper
+     * @param QuestionHelper $questionHelper
      * @param ConfirmationQuestionFactory $confirmationQuestionFactory
      * @param ModuleDataSetupInterface $setup
-     * @param ModuleContextInterface $context
      */
     public function __construct(
         \Magento\Framework\App\State $state,
-        \Symfony\Component\Console\Helper\QuestionHelper $questionHelper,
+        QuestionHelper $questionHelper,
         ConfirmationQuestionFactory $confirmationQuestionFactory,
         ModuleDataSetupInterface $setup
     )
@@ -78,7 +75,13 @@ class Force extends Console\Command\Command
     public function configure()
     {
         $this->setName('migrate:force')
-            ->setDescription('Force migrations to run');
+            ->setDescription('Force migrations to run')
+            ->setDefinition([
+                new InputArgument(
+                    self::ARG_MODULE,
+                    InputArgument::REQUIRED,
+                    'The module to force the migrations for, eg: EdmondsCommerce_Migrations'
+                )]);
 
         parent::configure();
     }
