@@ -80,7 +80,7 @@ class Force extends Console\Command\Command
 
     public function configure()
     {
-        $this->setDescription('Import product images from the API');
+        $this->setDescription('Force migrations to run');
 
         parent::configure();
     }
