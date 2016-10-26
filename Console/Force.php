@@ -3,6 +3,7 @@
 use Symfony\Component\Console;
 use \Magento\Framework\Setup\ModuleContextInterface;
 use \Magento\Framework\Setup\ModuleDataSetupInterface;
+use Symfony\Component\Console\Question\ConfirmationQuestionFactory;
 
 class Force extends Console\Command\Command
 {
@@ -18,7 +19,7 @@ class Force extends Console\Command\Command
     private $installData;
 
     /**
-     * @var Console\Question\ConfirmationQuestionFactory
+     * @var ConfirmationQuestionFactory
      */
     private $confirmationQuestionFactory;
 
@@ -38,22 +39,20 @@ class Force extends Console\Command\Command
      * @param \Magento\Framework\App\State $state
      * @param \EdmondsCommerce\Migrations\Setup\InstallData $installData
      * @param Console\Helper\QuestionHelper $questionHelper
-     * @param Console\Question\ConfirmationQuestionFactory $confirmationQuestionFactory
+     * @param ConfirmationQuestionFactory $confirmationQuestionFactory
      * @param ModuleDataSetupInterface $setup
      * @param ModuleContextInterface $context
      */
     public function __construct(
         \Magento\Framework\App\State $state,
-        \EdmondsCommerce\Migrations\Setup\InstallData $installData,
         \Symfony\Component\Console\Helper\QuestionHelper $questionHelper,
-        Console\Question\ConfirmationQuestionFactory $confirmationQuestionFactory,
+        ConfirmationQuestionFactory $confirmationQuestionFactory,
         ModuleDataSetupInterface $setup
     )
     {
         parent::__construct('migrations:force');
 
         $this->state = $state;
-        $this->installData = $installData;
         $this->confirmationQuestionFactory = $confirmationQuestionFactory;
         $this->questionHelper = $questionHelper;
         $this->setup = $setup;
@@ -74,13 +73,12 @@ class Force extends Console\Command\Command
         }
 
         $output->writeln('You were warned');
-
-        $this->installData->install($this->setup);
     }
 
     public function configure()
     {
-        $this->setDescription('Force migrations to run');
+        $this->setName('migrate:force')
+            ->setDescription('Force migrations to run');
 
         parent::configure();
     }
