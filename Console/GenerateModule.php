@@ -16,7 +16,7 @@ class GenerateModule extends Console\Command\Command
     {
         parent::__construct($name);
 
-        $this->addArgument('namespace', Console\Input\InputArgument::REQUIRED, '')
+        $this->addArgument('namespace', Console\Input\InputArgument::REQUIRED, 'Namespace of the module');
     }
 
     public function execute(InputInterface $input, OutputInterface $output)
