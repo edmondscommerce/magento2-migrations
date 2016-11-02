@@ -1,24 +1,29 @@
 <?php namespace EdmondsCommerce\Migrations\Console;
 
-use League\CLImate\TerminalObject\Dynamic\Input;
+use Magento\Framework\Setup\InstallDataInterface;
+use Magento\Framework\Setup\UpgradeDataInterface;
 use Symfony\Component\Console;
 use \Magento\Framework\Setup\ModuleContextInterface;
 use \Magento\Framework\Setup\ModuleDataSetupInterface;
-use Symfony\Component\Console\Helper\QuestionHelper;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Question\ConfirmationQuestionFactory;
 
 class Force extends Console\Command\Command
 {
-    const ARG_MODULE = 'module';
-
     /**
      * @var  \Magento\Framework\App\State
      */
     private $state;
+    /**
+     * @var InstallDataInterface
+     */
+    private $installData;
 
     /**
-     * @var ConfirmationQuestionFactory
+     * @var UpgradeDataInterface
+     */
+    private $upgradeData;
+
+    /**
+     * @var Console\Question\ConfirmationQuestionFactory
      */
     private $confirmationQuestionFactory;
 
@@ -36,20 +41,28 @@ class Force extends Console\Command\Command
     /**
      * Force constructor.
      * @param \Magento\Framework\App\State $state
-     * @param QuestionHelper $questionHelper
-     * @param ConfirmationQuestionFactory $confirmationQuestionFactory
+     * @param InstallDataInterface $installData
+     * @param UpgradeDataInterface $upgradeData
+     * @param Console\Helper\QuestionHelper $questionHelper
+     * @param Console\Question\ConfirmationQuestionFactory $confirmationQuestionFactory
      * @param ModuleDataSetupInterface $setup
+     * @param $commandName
      */
     public function __construct(
         \Magento\Framework\App\State $state,
-        QuestionHelper $questionHelper,
-        ConfirmationQuestionFactory $confirmationQuestionFactory,
-        ModuleDataSetupInterface $setup
+        InstallDataInterface $installData,
+        UpgradeDataInterface $upgradeData,
+        \Symfony\Component\Console\Helper\QuestionHelper $questionHelper,
+        Console\Question\ConfirmationQuestionFactory $confirmationQuestionFactory,
+        ModuleDataSetupInterface $setup,
+        $commandName
     )
     {
-        parent::__construct('migrations:force');
+        parent::__construct($commandName);
 
         $this->state = $state;
+        $this->installData = $installData;
+        $this->upgradeData = $upgradeData;
         $this->confirmationQuestionFactory = $confirmationQuestionFactory;
         $this->questionHelper = $questionHelper;
         $this->setup = $setup;
@@ -70,18 +83,14 @@ class Force extends Console\Command\Command
         }
 
         $output->writeln('You were warned');
+
+        $this->installData->install($this->setup);
+        $this->upgradeData->upgrade($this->setup);
     }
 
     public function configure()
     {
-        $this->setName('migrate:force')
-            ->setDescription('Force migrations to run')
-            ->setDefinition([
-                new InputArgument(
-                    self::ARG_MODULE,
-                    InputArgument::REQUIRED,
-                    'The module to force the migrations for, eg: EdmondsCommerce_Migrations'
-                )]);
+        $this->setDescription('Force this module\'s install scripts to fire - do not use in production');
 
         parent::configure();
     }
