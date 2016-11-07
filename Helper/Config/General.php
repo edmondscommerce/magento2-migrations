@@ -8,6 +8,16 @@ use \Magento\Framework\App\Config\ScopeConfigInterface;
 
 class General extends AbstractConfig
 {
+    const CONFIG_STORENAME = "general/store_information/name";
+    const CONFIG_BASECURRENCY = "currency/options/base";
+    const CONFIG_DISPLAYCURRENCY = "currency/options/default";
+    const CONFIG_ALLOWEDCURRENCIES = "currency/options/allow";
+    const CONFIG_FOOTERCOPYRIGHT= "design/footer/copyright";
+    const CONFIG_WELCOMEMESSAGE= "design/header/welcome";
+    const CONFIG_HEADTITLE = "design/head/default_title";
+    const CONFIG_METADESCRIPTION = "design/head/default_description";
+    const CONFIG_METAKEYWORDS = "design/head/default_title";
+
 
     public function setStoreName($name, $type = self::SCOPE_DEFAULT, $scopeId = 0)
     {
@@ -66,16 +76,6 @@ class General extends AbstractConfig
 
     public function setHeadDescription($keywords, $type = self::SCOPE_DEFAULT, $scopeId = 0) {
         $this->setConfigPath('design/head/default_description', $keywords, $type, $scopeId);
-    }
-
-
-
-    public function getHeadKeywords($type = self::SCOPE_DEFAULT, $scopeId = 0) {
-        return $this->scopeConfig->getValue('design/head/default_title', $type);
-    }
-
-    public function setHeadKeywords($keywords, $type = self::SCOPE_DEFAULT, $scopeId = 0) {
-        $this->setConfigPath('design/head/default_title', $keywords, $type, $scopeId);
     }
 
 

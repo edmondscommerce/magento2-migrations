@@ -80,4 +80,29 @@ abstract class AbstractConfig extends AbstractHelper
     {
         $this->storeManager->getStore($scopeId);
     }
+
+
+
+
+    public function getConfigValue($configPath, $type = self::SCOPE_DEFAULT, $scopeId = 0) {
+        return $this->scopeConfig->getValue($configPath, $type, $scopeId);
+    }
+
+    public function setConfigValue($configPath, $configValue, $type = self::SCOPE_DEFAULT, $scopeId = 0) {
+        $this->setConfigPath($configPath, $configValue, $type, $scopeId);
+    }
+
+    /**
+     * @param string $configPath Path to a config key
+     * @param string $needle A string to match the value against. If it matches, it'll be replaced
+     * @param string $configValue string The new value
+     * @param string $type Scope type
+     * @param int $scopeId Scope ID
+     */
+    public function replaceMatchingConfigValue($configPath, $needle, $configValue, $type = self::SCOPE_DEFAULT, $scopeId = 0) {
+        $currentValue = $this->getConfigValue($configPath, $type, $scopeId);
+        if(strpos($currentValue, $needle) !== false) {
+            $this->setConfigValue($configPath, $configValue, $type, $scopeId);
+        }
+    }
 }
