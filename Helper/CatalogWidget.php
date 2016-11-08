@@ -6,6 +6,9 @@ use Magento\Framework\App\Helper\Context;
 
 class CatalogWidget extends AbstractHelper {
 
+    const INSTANCE_TYPE_PRODUCTLIST = "Magento\\CatalogWidget\\Block\\Product\\ProductsList";
+    const TEMPLATE_PRODUCTLIST = "product/widget/content/grid.phtml";
+
     private $productsListFactory;
     private $resourceConnection;
 
@@ -35,16 +38,30 @@ class CatalogWidget extends AbstractHelper {
     }
 
     public function createProductListWidgetBySql(
-        $instaceType,
         $themeId,
         $title,
         $storeIds,
         $widgetParameters,
+        $pageId,
         $layoutHandle
     ) {
         $conn = $this->resourceConnection->getConnection();
+        $widgetInstanceId = $this->createWidgetInstanceBySql(self::INSTANCE_TYPE_PRODUCTLIST, $themeId, $title, $storeIds, $widgetParameters);
+        $this->addWidgetInstanceToPageBySql($pageId, $widgetInstanceId, $layoutHandle, "content", self::TEMPLATE_PRODUCTLIST);
+
+    }
+
+    private function createWidgetInstanceBySql(
+        $instanceType,
+        $themeId,
+        $title,
+        $storeIds,
+        $widgetParameters
+    ) {
+        $conn = $this->resourceConnection->getConnection();
+
         $values = array();
-        $values['instance_type'] = $instaceType;
+        $values['instance_type'] = $instanceType;
         $values['theme_id'] = $themeId;
         $values['title'] = $title;
         $values['store_ids'] = $storeIds;
@@ -52,8 +69,43 @@ class CatalogWidget extends AbstractHelper {
         $values['sort_order'] = 0;
 
         $conn->insert('widget_instance', $values);
+
+        $widgetInstanceId = $conn->lastInsertId();
+
+        return $widgetInstanceId;
     }
 
+    private function addWidgetInstanceToPageBySql(
+        $pageId,
+        $widgetId,
+        $layoutHandle,
+        $blockReference,
+        $pageTemplate
+    ) {
+        $conn = $this->resourceConnection->getConnection();
+
+        $values = array();
+        $values['instance_id'] = $widgetId;
+        $values['page_group'] = "pages";
+        $values['layout_handle'] = $layoutHandle;
+        $values['block_reference'] = $blockReference;
+        $values['page_for'] = "all";
+        $values['entities'] = "";
+        $values["page_template"] = $pageTemplate;
+
+        $conn->insert('widget_instance_page', $values);
+    }
+
+    public function widgetExistsByTitle($title) {
+        $conn = $this->resourceConnection->getConnection();
+
+        $select = $conn->select()->from('widget_instance')->where('title = "' . $title . '"', "string");
+        $result = $conn->fetchAll($select);
+        if(sizeof($result) > 0) {
+            return true;
+        }
+        return false;
+    }
 
 
 
