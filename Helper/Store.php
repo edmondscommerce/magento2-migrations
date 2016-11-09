@@ -1,16 +1,11 @@
 <?php namespace EdmondsCommerce\Migrations\Helper;
 
-use Magento\Framework\App\Config\ConfigResource\ConfigInterface;
-use Magento\Framework\App\Helper\AbstractHelper;
+use EdmondsCommerce\Migrations\Helper\AbstractHelper;
 use Magento\Framework\App\Helper\Context;
 use Magento\Store\Model\StoreManagerInterface;
 
-class Store extends AbstractHelper
+class Store extends AbstractHelper implements \EdmondsCommerce\Migrations\Contracts\Config\Store
 {
-    /**
-     * @var ConfigInterface
-     */
-    private $config;
     /**
      * @var StoreManagerInterface
      */

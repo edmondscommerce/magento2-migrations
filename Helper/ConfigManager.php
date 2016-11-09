@@ -1,21 +1,18 @@
-<?php namespace EdmondsCommerce\Migrations\Helper\Config;
+<?php namespace EdmondsCommerce\Migrations\Helper;
 
-use Magento\Config\Model\ResourceModel\Config;
-use Magento\Framework\App\Helper\AbstractHelper;
+use EdmondsCommerce\Migrations\Contracts\ConfigManagerContract;
 use Magento\Framework\App\Config\ConfigResource\ConfigInterface;
 use Magento\Framework\App\Helper\Context;
 use Magento\Store\Model\StoreManagerInterface;
 
-abstract class AbstractConfig extends AbstractHelper
+class ConfigManager extends AbstractHelper implements ConfigManagerContract
 {
-    const SCOPE_DEFAULT = 'default';
-    const SCOPE_WEBSITE = 'websites';
-    const SCOPE_STORE = 'stores';
 
     /**
      * @var ConfigInterface
      */
     private $config;
+
     /**
      * @var StoreManagerInterface
      */
@@ -39,6 +36,7 @@ abstract class AbstractConfig extends AbstractHelper
      * @param string $value
      * @param string $scopeType
      * @param int $scopeId
+     * @return $this
      */
     public function setConfigPath($path, $value, $scopeType = self::SCOPE_DEFAULT, $scopeId = 0)
     {
@@ -48,9 +46,11 @@ abstract class AbstractConfig extends AbstractHelper
         }
 
         $this->config->saveConfig($path, $value, $scopeType, $scopeId);
+
+        return $this;
     }
 
-    protected function validateScope($scopeType, $scopeId)
+    public function validateScope($scopeType, $scopeId)
     {
         switch ($scopeType)
         {
@@ -71,38 +71,62 @@ abstract class AbstractConfig extends AbstractHelper
         return true;
     }
 
-    protected function validateWebsite($scopeId)
+
+    public function validateWebsite($scopeId)
     {
         $this->storeManager->getWebsite($scopeId);
     }
 
-    protected function validateStoreView($scopeId)
+    public function validateStoreView($scopeId)
     {
         $this->storeManager->getStore($scopeId);
     }
 
-
-
-
-    public function getConfigValue($configPath, $type = self::SCOPE_DEFAULT, $scopeId = 0) {
+    public function getConfigValue($configPath, $type = self::SCOPE_DEFAULT, $scopeId = 0)
+    {
         return $this->scopeConfig->getValue($configPath, $type, $scopeId);
     }
 
-    public function setConfigValue($configPath, $configValue, $type = self::SCOPE_DEFAULT, $scopeId = 0) {
+    public function setConfigValue($configPath, $configValue, $type = self::SCOPE_DEFAULT, $scopeId = 0)
+    {
         $this->setConfigPath($configPath, $configValue, $type, $scopeId);
     }
 
     /**
+     * Replaces a string in the config entry path value
      * @param string $configPath Path to a config key
      * @param string $needle A string to match the value against. If it matches, it'll be replaced
      * @param string $configValue string The new value
      * @param string $type Scope type
      * @param int $scopeId Scope ID
      */
-    public function replaceMatchingConfigValue($configPath, $needle, $configValue, $type = self::SCOPE_DEFAULT, $scopeId = 0) {
+    public function replaceMatchingConfigValue($configPath, $needle, $configValue, $type = self::SCOPE_DEFAULT, $scopeId = 0)
+    {
         $currentValue = $this->getConfigValue($configPath, $type, $scopeId);
-        if(strpos($currentValue, $needle) !== false) {
+        if (strpos($currentValue, $needle) !== false)
+        {
             $this->setConfigValue($configPath, $configValue, $type, $scopeId);
         }
+    }
+
+    /**
+     * Performs an operation on the current config value, the closure is passed the current value
+     * @param $configPath
+     * @param Callable $callback
+     * @param string $type
+     * @param int $scopeId
+     * @return $this
+     */
+    public function setConfigValueCallback($configPath, Callable $callback, $type = self::SCOPE_DEFAULT, $scopeId = 0)
+    {
+        $currentValue = $this->getConfigValue($configPath, $type, $scopeId);
+        $newValue = $callback($currentValue);
+        if ($currentValue != $newValue)
+        {
+            //The value has changed, save
+            $this->setConfigPath($configPath, $newValue, $type, $scopeId);
+        }
+
+        return $this;
     }
 }
