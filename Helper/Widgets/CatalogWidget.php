@@ -5,7 +5,7 @@ use EdmondsCommerce\Migrations\Helper\WidgetManager;
 use Magento\CatalogWidget\Block\Product\ProductsListFactory;
 use Magento\Framework\App\Helper\Context;
 
-class Catalog extends AbstractWidget implements CatalogWidgetContract
+class CatalogWidget extends AbstractWidget implements CatalogWidgetContract
 {
 
     const INSTANCE_TYPE_PRODUCTLIST = "Magento\\CatalogWidget\\Block\\Product\\ProductsList";

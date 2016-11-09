@@ -1,6 +1,7 @@
-<?php namespace EdmondsCommerce\Migrations\Helper;
+<?php namespace EdmondsCommerce\Migrations\Helper\Catalog;
 
 use EdmondsCommerce\Migrations\Contracts\Catalog\CategoryContract;
+use EdmondsCommerce\Migrations\Helper\AbstractHelper;
 
 class Category extends AbstractHelper implements CategoryContract {
 
