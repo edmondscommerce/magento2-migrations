@@ -7,15 +7,6 @@ interface ConfigManagerContract
     const SCOPE_STORE = 'stores';
 
     /**
-     * @param string $path
-     * @param string $value
-     * @param string $scopeType
-     * @param int $scopeId
-     * @return $this
-     */
-    public function setConfigPath($path, $value, $scopeType = self::SCOPE_DEFAULT, $scopeId = 0);
-
-    /**
      * Check that the scope is valid
      * @param string $scopeType
      * @param string $scopeId

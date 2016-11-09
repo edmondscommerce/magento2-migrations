@@ -31,21 +31,22 @@ class ConfigManager extends AbstractHelper implements ConfigManagerContract
         $this->storeManager = $storeManager;
     }
 
+
     /**
-     * @param string $path
-     * @param string $value
-     * @param string $scopeType
+     * @param string $configPath
+     * @param mixed $configValue
+     * @param string $type
      * @param int $scopeId
      * @return $this
      */
-    public function setConfigPath($path, $value, $scopeType = self::SCOPE_DEFAULT, $scopeId = 0)
+    public function setConfigValue($configPath, $configValue, $type = self::SCOPE_DEFAULT, $scopeId = 0)
     {
         if ($scopeId > 0)
         {
-            $this->validateScope($scopeType, $scopeId);
+            $this->validateScope($type, $scopeId);
         }
 
-        $this->config->saveConfig($path, $value, $scopeType, $scopeId);
+        $this->config->saveConfig($configPath, $configValue, $type, $scopeId);
 
         return $this;
     }
@@ -87,10 +88,7 @@ class ConfigManager extends AbstractHelper implements ConfigManagerContract
         return $this->scopeConfig->getValue($configPath, $type, $scopeId);
     }
 
-    public function setConfigValue($configPath, $configValue, $type = self::SCOPE_DEFAULT, $scopeId = 0)
-    {
-        $this->setConfigPath($configPath, $configValue, $type, $scopeId);
-    }
+
 
     /**
      * Replaces a string in the config entry path value
