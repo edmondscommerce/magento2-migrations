@@ -43,7 +43,7 @@ class ConfigManager extends AbstractHelper implements ConfigManagerContract
     {
         if ($scopeId > 0)
         {
-            $this->validateScope($type, $scopeId);
+            $this->validateScopeType($type);
         }
 
         $this->config->saveConfig($configPath, $configValue, $type, $scopeId);

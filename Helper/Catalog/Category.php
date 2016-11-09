@@ -2,6 +2,9 @@
 
 use EdmondsCommerce\Migrations\Contracts\Catalog\CategoryContract;
 use EdmondsCommerce\Migrations\Helper\AbstractHelper;
+use Magento\Framework\App\Helper\Context;
+use Magento\Framework\ObjectManagerInterface;
+use Magento\Store\Model\StoreManagerInterface;
 
 class Category extends AbstractHelper implements CategoryContract {
 
@@ -9,9 +12,9 @@ class Category extends AbstractHelper implements CategoryContract {
     protected $storeManager;
 
     public function __construct(
-        \Magento\Framework\App\Helper\Context $context,
-        \Magento\Framework\ObjectManagerInterface $objectManager,
-        \Magento\Store\Model\StoreManagerInterface $storeManager
+        Context $context,
+        ObjectManagerInterface $objectManager,
+        StoreManagerInterface $storeManager
     )
     {
         parent::__construct($context);
@@ -24,11 +27,11 @@ class Category extends AbstractHelper implements CategoryContract {
         $store = null;
         if($storeId)
         {
-            $this->storeManager->getStore($storeId);
+            $store = $this->storeManager->getStore($storeId);
         }
         else
         {
-            $this->storeManager->getStore();
+            $store = $this->storeManager->getStore();
         }
 
         $rootCategoryId = $store->getRootCategoryId();

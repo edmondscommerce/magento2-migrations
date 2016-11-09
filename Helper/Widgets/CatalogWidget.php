@@ -26,11 +26,12 @@ class CatalogWidget extends AbstractWidget implements CatalogWidgetContract
      * @param $widgetParameters
      * @param $pageId
      * @param $layoutHandle
+     * @return string
      */
     public function createProductListWidgetAndAssignToPage($themeId, $title, $storeIds, $widgetParameters, $pageId = null, $layoutHandle)
     {
-        $widgetInstanceId = $this->createWidgetInstanceBySql(self::INSTANCE_TYPE_PRODUCTLIST, $themeId, $title, $storeIds, $widgetParameters);
-        $this->addWidgetInstanceToPageBySql($pageId, $widgetInstanceId, $layoutHandle, "content", self::TEMPLATE_PRODUCTLIST);
+        $widgetInstanceId = $this->widgetManager->createWidgetInstance(self::INSTANCE_TYPE_PRODUCTLIST, $themeId, $title, $storeIds, $widgetParameters);
+        $this->widgetManager->addWidgetInstanceToPage($pageId, $widgetInstanceId, $layoutHandle, "content", self::TEMPLATE_PRODUCTLIST);
 
         return $widgetInstanceId;
     }

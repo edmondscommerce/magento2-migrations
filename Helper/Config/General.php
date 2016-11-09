@@ -7,28 +7,28 @@ class General extends ConfigManager implements GeneralContract
 {
     public function setStoreName($name, $type = self::SCOPE_DEFAULT, $scopeId = 0)
     {
-        $this->setConfigPath('general/store_information/name', $name, $type, $scopeId);
+        $this->setConfigValue('general/store_information/name', $name, $type, $scopeId);
 
         return $this;
     }
 
     public function setBaseCurrency($currencyCode, $type = self::SCOPE_DEFAULT, $scopeId = 0)
     {
-        $this->setConfigPath('currency/options/base', $currencyCode, $type, $scopeId);
+        $this->setConfigValue('currency/options/base', $currencyCode, $type, $scopeId);
 
         return $this;
     }
 
     public function setDisplayCurrency($currencyCode, $type = self::SCOPE_DEFAULT, $scopeId = 0)
     {
-        $this->setConfigPath('currency/options/default', $currencyCode, $type, $scopeId);
+        $this->setConfigValue('currency/options/default', $currencyCode, $type, $scopeId);
 
         return $this;
     }
 
     public function setAllowedCurrencies($currencyCode, $type = self::SCOPE_DEFAULT, $scopeId = 0)
     {
-        $this->setConfigPath('currency/options/allow', $currencyCode, $type, $scopeId);
+        $this->setConfigValue('currency/options/allow', $currencyCode, $type, $scopeId);
 
         return $this;
     }
@@ -40,7 +40,7 @@ class General extends ConfigManager implements GeneralContract
 
     public function setFooterCopyright($currencyCode, $type = self::SCOPE_DEFAULT, $scopeId = 0)
     {
-        $this->setConfigPath('design/footer/copyright', $currencyCode, $type, $scopeId);
+        $this->setConfigValue('design/footer/copyright', $currencyCode, $type, $scopeId);
 
         return $this;
     }
@@ -53,7 +53,7 @@ class General extends ConfigManager implements GeneralContract
 
     public function setWelcomeMessage($messageText, $type = self::SCOPE_DEFAULT, $scopeId = 0)
     {
-        $this->setConfigPath('design/header/welcome', $messageText, $type, $scopeId);
+        $this->setConfigValue('design/header/welcome', $messageText, $type, $scopeId);
 
         return $this;
     }
@@ -66,7 +66,7 @@ class General extends ConfigManager implements GeneralContract
 
     public function setHeadTitle($title, $type = self::SCOPE_DEFAULT, $scopeId = 0)
     {
-        $this->setConfigPath('design/head/default_title', $title, $type, $scopeId);
+        $this->setConfigValue('design/head/default_title', $title, $type, $scopeId);
 
         return $this;
     }
@@ -79,7 +79,7 @@ class General extends ConfigManager implements GeneralContract
 
     public function setHeadDescription($keywords, $type = self::SCOPE_DEFAULT, $scopeId = 0)
     {
-        $this->setConfigPath('design/head/default_description', $keywords, $type, $scopeId);
+        $this->setConfigValue('design/head/default_description', $keywords, $type, $scopeId);
 
         return $this;
     }

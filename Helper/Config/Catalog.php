@@ -7,7 +7,7 @@ class Catalog extends ConfigManager implements CatalogContract
 {
     public function setStockControlEnabled($enabled = true, $scopeType = self::SCOPE_DEFAULT, $scopeId = 0)
     {
-        $this->setConfigPath('cataloginventory/item_options/manage_stock', $enabled, $scopeType, $scopeId);
+        $this->setConfigValue('cataloginventory/item_options/manage_stock', $enabled, $scopeType, $scopeId);
 
         return $this;
     }
