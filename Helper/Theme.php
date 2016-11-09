@@ -1,6 +1,5 @@
 <?php namespace EdmondsCommerce\Migrations\Helper;
 
-use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Framework\App\Helper\Context;
 
 class Theme extends AbstractHelper

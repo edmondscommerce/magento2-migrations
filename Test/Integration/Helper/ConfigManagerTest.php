@@ -4,6 +4,11 @@ use EdmondsCommerce\Migrations\Helper\ConfigManager;
 use EdmondsCommerce\Migrations\Test\Integration\BaseTest;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 
+/**
+ * Class ConfigManagerTest
+ * @package EdmondsCommerce\Migrations\Test\Integration\Helper
+ * @magentoConfigFixture
+ */
 class ConfigManagerTest extends BaseTest
 {
     /**
@@ -21,7 +26,7 @@ class ConfigManagerTest extends BaseTest
         parent::setUp();
 
         $this->class = $this->getOM()->create(ConfigManager::class);
-        $this->config = $this->getOM()->create(ScopeConfigInterface::class);
+        $this->scopeConfig = $this->getOM()->create(ScopeConfigInterface::class);
     }
 
     /**
@@ -29,13 +34,25 @@ class ConfigManagerTest extends BaseTest
      */
     public function itCanSetAStringConfigPathOnDefaults()
     {
-        $check = 'Test Store';
-        $checkPath = 'general/store_information/name';
-        $this->class->setConfigValue($checkPath, $check);
+        $value = 'Test Store';
+        $path = 'general/store_information/name';
 
-        $result = $this->scopeConfig->getValue($checkPath);
-        $this->assertEquals($check, $result);
+        $this->class->setConfigValue($path, $value);
+
+        $this->assertConfigValue($value, $path);
+    }
+
+    /**
+     * Checks that a config entry matches an expectation
+     * @param $expectation
+     * @param $path
+     * @param string $scopeType
+     * @param int $scope
+     */
+    protected function assertConfigValue($expectation, $path, $scopeType = ScopeConfigInterface::SCOPE_TYPE_DEFAULT, $scope = 0)
+    {
+        $result = $this->scopeConfig->getValue($path, $scopeType, $scope);
+
+        $this->assertEquals($expectation, $result);
     }
 }
-
-

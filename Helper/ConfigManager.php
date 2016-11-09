@@ -51,44 +51,26 @@ class ConfigManager extends AbstractHelper implements ConfigManagerContract
         return $this;
     }
 
-    public function validateScope($scopeType, $scopeId)
+    /**
+     * @param $scopeType
+     * @return bool
+     * @throws \Exception
+     */
+    public function validateScopeType($scopeType)
     {
-        switch ($scopeType)
-        {
-            case self::SCOPE_WEBSITE:
-                $this->validateWebsite($scopeId);
-                break;
-            case self::SCOPE_STORE:
-                $this->validateStoreView($scopeId);
-                break;
-            case self::SCOPE_DEFAULT:
-                return true;
-                break;
+        $scopeTypes = array(
+            self::SCOPE_DEFAULT,
+            self::SCOPE_STORE,
+            self::SCOPE_WEBSITE
+        );
 
-            default:
-                throw new \Exception('Unknown scope type ' . $scopeType);
+        if(!in_array($scopeType, $scopeTypes))
+        {
+            throw new \Exception('Unknown scope type ' . $scopeType);
         }
 
         return true;
     }
-
-
-    public function validateWebsite($scopeId)
-    {
-        $this->storeManager->getWebsite($scopeId);
-    }
-
-    public function validateStoreView($scopeId)
-    {
-        $this->storeManager->getStore($scopeId);
-    }
-
-    public function getConfigValue($configPath, $type = self::SCOPE_DEFAULT, $scopeId = 0)
-    {
-        return $this->scopeConfig->getValue($configPath, $type, $scopeId);
-    }
-
-
 
     /**
      * Replaces a string in the config entry path value
@@ -117,7 +99,7 @@ class ConfigManager extends AbstractHelper implements ConfigManagerContract
      */
     public function setConfigValueCallback($configPath, Callable $callback, $type = self::SCOPE_DEFAULT, $scopeId = 0)
     {
-        $currentValue = $this->getConfigValue($configPath, $type, $scopeId);
+        $currentValue = $this->scopeConfig->getValue($configPath, $type, $scopeId);
         $newValue = $callback($currentValue);
         if ($currentValue != $newValue)
         {

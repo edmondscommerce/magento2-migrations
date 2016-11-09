@@ -7,34 +7,11 @@ interface ConfigManagerContract
     const SCOPE_STORE = 'stores';
 
     /**
-     * Check that the scope is valid
-     * @param string $scopeType
-     * @param string $scopeId
+     * Check that the scope type is valid
+     * @param $scopeType
      * @return bool
      */
-    public function validateScope($scopeType, $scopeId);
-
-    /**
-     * Check that the website exists
-     * @param string $scopeId
-     * @return bool
-     */
-    public function validateWebsite($scopeId);
-
-    /**
-     * Check that the store view exists
-     * @param string $scopeId
-     * @return bool
-     */
-    public function validateStoreView($scopeId);
-
-    /**
-     * @param string $configPath
-     * @param string $type
-     * @param int $scopeId
-     * @return mixed
-     */
-    public function getConfigValue($configPath, $type = self::SCOPE_DEFAULT, $scopeId = 0);
+    public function validateScopeType($scopeType);
 
     /**
      * @param string $configPath

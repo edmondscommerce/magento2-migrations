@@ -1,6 +1,5 @@
 <?php namespace EdmondsCommerce\Migrations\Helper;
 
-use EdmondsCommerce\Migrations\Helper\AbstractHelper;
 use Magento\Framework\App\Helper\Context;
 use Magento\Store\Model\StoreManagerInterface;
 

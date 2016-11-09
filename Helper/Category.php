@@ -1,7 +1,5 @@
 <?php namespace EdmondsCommerce\Migrations\Helper;
 
-use Magento\Framework\App\Helper\AbstractHelper;
-
 class Category extends AbstractHelper {
 
     protected $objectManager;
