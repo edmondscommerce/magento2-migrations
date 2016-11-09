@@ -1,6 +1,8 @@
 <?php namespace EdmondsCommerce\Migrations\Helper;
 
-class Category extends AbstractHelper {
+use EdmondsCommerce\Migrations\Contracts\Catalog\CategoryContract;
+
+class Category extends AbstractHelper implements CategoryContract {
 
     protected $objectManager;
     protected $storeManager;
@@ -16,8 +18,19 @@ class Category extends AbstractHelper {
         $this->storeManager = $storeManager;
     }
 
-    public function getRootCategoryId() {
-        $rootCategoryId = $this->storeManager->getStore()->getRootCategoryId();
+    public function getRootCategoryId($storeId = null) {
+        /** @var \Magento\Store\Model\Store $store */
+        $store = null;
+        if($storeId)
+        {
+            $this->storeManager->getStore($storeId);
+        }
+        else
+        {
+            $this->storeManager->getStore();
+        }
+
+        $rootCategoryId = $store->getRootCategoryId();
         return $rootCategoryId;
     }
 

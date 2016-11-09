@@ -1,6 +1,6 @@
 <?php namespace EdmondsCommerce\Migrations\Contracts\Catalog;
 
-interface Category
+interface CategoryContract
 {
     /**
      * Get the root category for a store

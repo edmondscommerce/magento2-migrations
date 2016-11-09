@@ -1,6 +1,6 @@
 <?php namespace EdmondsCommerce\Migrations\Contracts\Config;
 
-interface Store
+interface StoreContract
 {
     public function setWebsiteName($name, $websiteId = null);
 

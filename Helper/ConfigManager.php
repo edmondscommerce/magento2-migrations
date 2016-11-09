@@ -79,14 +79,18 @@ class ConfigManager extends AbstractHelper implements ConfigManagerContract
      * @param string $configValue string The new value
      * @param string $type Scope type
      * @param int $scopeId Scope ID
+     * @return $this
      */
     public function replaceMatchingConfigValue($configPath, $needle, $configValue, $type = self::SCOPE_DEFAULT, $scopeId = 0)
     {
-        $currentValue = $this->getConfigValue($configPath, $type, $scopeId);
-        if (strpos($currentValue, $needle) !== false)
+        return $this->setConfigValueCallback($configPath, function($currentValue) use ($needle, $configValue)
         {
-            $this->setConfigValue($configPath, $configValue, $type, $scopeId);
-        }
+            if (strpos($currentValue, $needle) !== false)
+            {
+                return $configValue;
+            }
+            return $currentValue;
+        });
     }
 
     /**

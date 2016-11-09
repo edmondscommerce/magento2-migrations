@@ -14,4 +14,12 @@
             <argument name="name" xsi:type="string">ec:migrations:generate</argument>
         </arguments>
     </type>
+
+    <preference for="EdmondsCommerce\Migrations\Contracts\Catalog\CategoryContract" type="EdmondsCommerce\Migrations\Helper\Category"/>
+    <preference for="EdmondsCommerce\Migrations\Contracts\Config\CatalogContract" type="EdmondsCommerce\Migrations\Helper\Config\Catalog"/>
+    <preference for="EdmondsCommerce\Migrations\Contracts\Config\GeneralContract" type="EdmondsCommerce\Migrations\Helper\Config\General"/>
+    <preference for="EdmondsCommerce\Migrations\Contracts\Config\StoreContract" type="EdmondsCommerce\Migrations\Helper\Config\Store"/>
+    <preference for="EdmondsCommerce\Migrations\Contracts\Widgets\CatalogWidgetContract" type="EdmondsCommerce\Migrations\Helper\Widgets\Catalog"/>
+    <preference for="EdmondsCommerce\Migrations\Contracts\ConfigManagerContract" type="EdmondsCommerce\Migrations\Helper\ConfigManager"/>
+    <preference for="EdmondsCommerce\Migrations\Contracts\WidgetManagerContract" type="EdmondsCommerce\Migrations\Helper\WidgetManager"/>
 </config>

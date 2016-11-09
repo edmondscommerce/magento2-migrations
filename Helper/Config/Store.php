@@ -1,9 +1,10 @@
-<?php namespace EdmondsCommerce\Migrations\Helper;
+<?php namespace EdmondsCommerce\Migrations\Helper\Config;
 
+use EdmondsCommerce\Migrations\Contracts\Config\StoreContract;
 use Magento\Framework\App\Helper\Context;
 use Magento\Store\Model\StoreManagerInterface;
 
-class Store extends AbstractHelper implements \EdmondsCommerce\Migrations\Contracts\Config\Store
+class Store extends AbstractHelper implements StoreContract
 {
     /**
      * @var StoreManagerInterface
