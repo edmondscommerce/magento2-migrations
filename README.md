@@ -7,4 +7,4 @@ Helps to bootstrap a Magento 2 store for production allowing a database to be dr
 
 Install via composer
 
-    "edmondscommerce/magento2-migrations": "dev-master"
+    composer require edmondscommerce/magento2-migrations:dev-master@dev
