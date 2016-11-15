@@ -5,21 +5,28 @@ use EdmondsCommerce\Migrations\Helper\AbstractHelper;
 use Magento\Framework\App\Helper\Context;
 use Magento\Framework\ObjectManagerInterface;
 use Magento\Store\Model\StoreManagerInterface;
+use Magento\Catalog\Model\CategoryFactory;
 
 class Category extends AbstractHelper implements CategoryContract {
 
     protected $objectManager;
     protected $storeManager;
+    /**
+     * @var CategoryFactory
+     */
+    private $categoryFactory;
 
     public function __construct(
         Context $context,
         ObjectManagerInterface $objectManager,
-        StoreManagerInterface $storeManager
+        StoreManagerInterface $storeManager,
+        CategoryFactory $categoryFactory
     )
     {
         parent::__construct($context);
         $this->objectManager = $objectManager;
         $this->storeManager = $storeManager;
+        $this->categoryFactory = $categoryFactory;
     }
 
     public function getRootCategoryId($storeId = null) {
@@ -59,27 +66,35 @@ class Category extends AbstractHelper implements CategoryContract {
 
     public function categoryExists($name, $parentId = null)
     {
-        $categoryModel = $this->objectManager
-            ->create('Magento\Catalog\Model\Category');
-        $category = $categoryModel->getCollection()
-            ->addAttributeToFilter('name', $name)
-            ->getFirstItem();
+
+        $category = $this->findCategoryByName($name, $parentId = null);
+
+        return !is_null($category);
+    }
+
+    public function findCategoryByName($name, $parentId = null)
+    {
+
+        $categoryCollection = $this->categoryFactory->create()->getCollection();
+        $categoryResults = $categoryCollection->addAttributeToFilter('name', $name);
+        $firstCategory = $categoryResults->setPageSize(1)->getFirstItem();
 
 
         if(is_null($parentId)) {
             $parentId = $rootCategoryId = $this->storeManager->getStore()->getRootCategoryId();
         }
 
-        $categoryId = $category->getId();
+
+        $categoryId = $firstCategory->getId();
         if(!isset($categoryId)) {
-            return false;
+            return null;
         }
 
-        if($category->getParentId() != $parentId) {
-            return false;
+        if($firstCategory->getParentId() != $parentId) {
+            return null;
         }
 
-        return true;
+        return $firstCategory;
     }
 
 }

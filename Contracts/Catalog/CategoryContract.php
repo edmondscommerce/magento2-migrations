@@ -1,5 +1,7 @@
 <?php namespace EdmondsCommerce\Migrations\Contracts\Catalog;
 
+use Magento\Catalog\Model\Category;
+
 interface CategoryContract
 {
     /**
@@ -18,4 +20,14 @@ interface CategoryContract
      * @return bool
      */
     public function categoryExists($name, $parentId = null);
+
+
+    /**
+     * Get an array of categories by category name
+     * @param string $name
+     * @param int $parentId
+     * @return Category
+     */
+    public function findCategoryByName($name, $parentId = null);
+
 }

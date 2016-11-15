@@ -11,4 +11,11 @@ class Catalog extends ConfigManager implements CatalogContract
 
         return $this;
     }
+
+    public function setGuestReviewsEnabled($enabled = true, $scopeType = self::SCOPE_DEFAULT, $scopeId = 0)
+    {
+        $this->setConfigValue('catalog/review/allow_guest', $enabled, $scopeType, $scopeId);
+
+        return $this;
+    }
 }
