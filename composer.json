@@ -16,13 +16,5 @@
         "psr-4": {
             "EdmondsCommerce\\Migrations\\": ""
         }
-    },
-    "extra": {
-        "map": [
-            [
-                "*",
-                "EdmondsCommerce/Migrations"
-            ]
-        ]
     }
 }
