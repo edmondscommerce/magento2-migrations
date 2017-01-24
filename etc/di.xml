@@ -1,20 +1,5 @@
 <?xml version="1.0" ?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
-
-    <type name="Magento\Framework\Console\CommandListInterface">
-        <arguments>
-            <argument name="commands" xsi:type="array">
-                <item name="ec:migrate:force" xsi:type="object">EdmondsCommerce\Migrations\Console\GenerateModule</item>
-            </argument>
-        </arguments>
-    </type>
-
-    <type name="EdmondsCommerce\Migrations\Console\GenerateModule">
-        <arguments>
-            <argument name="name" xsi:type="string">ec:migrations:generate</argument>
-        </arguments>
-    </type>
-
     <preference for="EdmondsCommerce\Migrations\Contracts\Catalog\CategoryContract" type="EdmondsCommerce\Migrations\Helper\Catalog\Category"/>
     <preference for="EdmondsCommerce\Migrations\Contracts\Config\CatalogContract" type="EdmondsCommerce\Migrations\Helper\Config\Catalog"/>
     <preference for="EdmondsCommerce\Migrations\Contracts\Config\GeneralContract" type="EdmondsCommerce\Migrations\Helper\Config\General"/>
