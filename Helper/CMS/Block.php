@@ -3,6 +3,7 @@
 use EdmondsCommerce\Migrations\Contracts\CMS\BlockContract;
 use EdmondsCommerce\Migrations\Helper\AbstractHelper;
 use Magento\Cms\Api\BlockRepositoryInterface;
+use Magento\Cms\Model\BlockFactory;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\App\Helper\Context;
 use Magento\Framework\ObjectManagerInterface;
@@ -24,27 +25,33 @@ class Block extends AbstractHelper implements BlockContract
      */
     private $objectManager;
 
+    /**
+     * @var BlockFactory
+     */
+    private $blockFactory;
+
     public function __construct(
         Context $context,
         BlockRepositoryInterface $blockRepository,
         SearchCriteriaBuilder $searchCriteriaBuilder,
-        ObjectManagerInterface $objectManager
+        BlockFactory $blockFactory
     )
     {
         parent::__construct($context);
 
         $this->blockRepository = $blockRepository;
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
-        $this->objectManager = $objectManager;
+        $this->blockFactory = $blockFactory;
     }
 
     /**
      * @param $identifier
      * @param $content
+     * @todo Load and save are deprecated, would be great to replace it with BlockRepository
      */
     public function updateContent($identifier, $content)
     {
-        $block = $this->objectManager->create('Magento\Cms\Model\Block');
+        $block = $this->blockFactory->create();
         $block->load($identifier, 'identifier');
         $block->setContent($content);
         $block->save();
