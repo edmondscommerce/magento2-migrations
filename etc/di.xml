@@ -8,4 +8,5 @@
     <preference for="EdmondsCommerce\Migrations\Contracts\ConfigManagerContract" type="EdmondsCommerce\Migrations\Helper\ConfigManager"/>
     <preference for="EdmondsCommerce\Migrations\Contracts\WidgetManagerContract" type="EdmondsCommerce\Migrations\Helper\WidgetManager"/>
     <preference for="EdmondsCommerce\Migrations\Contracts\CMS\BlockContract" type="EdmondsCommerce\Migrations\Helper\CMS\Block"/>
+    <preference for="EdmondsCommerce\Migrations\Contracts\GlobalDatabaseContract" type="EdmondsCommerce\Migrations\Helper\GlobalDatabase"/>
 </config>
